@@ -1,0 +1,22 @@
+Este projeto PHP consiste em um sistema de Álbuns.
+
+
+Recursos do Admin:
+
+--- Login
+--- Visualizar usuários (ID, QTD FOTOS, NOME, NASCIMENTO, CREATED_AT, UPDATED_AT, AÇÕES(DELETAR, EDITAR, VER ÁLBUM));
+--- Editar usuários
+--- Deletar usuários
+
+
+Recursos do cliente:
+
+--- Login
+--- Cadastro
+--- Toda vez que um novo usuário se cadastrar, um e-mail é enviado ao administrador
+--- Visualizar dados
+--- Editar dados
+--- Deletar conta
+--- CRUD Álbum
+--- Função esqueçeu a senha
+
