@@ -1,0 +1,15 @@
+{
+    "name": "leonardolopeszievo/public",
+    "autoload": {
+        "psr-4": {
+            "Leonardolopeszievo\\Public\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "leonardolopeszievo",
+            "email": "leonardolopes@zievo.com.br"
+        }
+    ],
+    "require": {}
+}

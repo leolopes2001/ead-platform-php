@@ -1,6 +1,44 @@
 <?php
 
-if(!isset($_SESSION)) session_start();
+if (!isset($_SESSION)) session_start();
+
+$error = false;
+
+
+if (count($_POST)) {
+
+    if (empty($_POST['email'])) {
+        $error = "Credenciais inválidas";
+    }
+
+    if (empty($_POST['password'])) {
+        $error = "Credenciais inválidas";
+    }
+
+    if ($error) {
+        echo $error;
+    } else {
+        include("database.php");
+
+        $email =  $_POST['email'];
+        $password =  $_POST['password'];
+
+        $stmt = $mysqli->prepare("SELECT id, email, password, admin FROM users WHERE email = ? LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $user = $stmt->get_result()->fetch_assoc();
+
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['admin'] = $user['admin'];
+
+            header("Location: home.php");
+        } else {
+            echo  "Credenciais inválidas";
+        }
+    }
+}
 
 ?>
 
@@ -24,11 +62,11 @@ if(!isset($_SESSION)) session_start();
             <form method="post" action="">
                 <div>
                     <label class="form-label" for="email">E-mail</label>
-                    <input type="text" name="email" id="email" class="form-control" <??>>
+                    <input type="text" name="email" id="email" class="form-control" <?php if(isset($_POST['email'])) echo $_POST['email'] ?>>
                 </div>
                 <div>
                     <label class="form-label" for="password">Senha</label>
-                    <input type="password" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="password" class="form-control" <?php if(isset($_POST['password'])) echo $_POST['password'] ?>>
                 </div>
                 <button class="btn btn-primary mt-3" type="submit">Entrar</button>
             </form>

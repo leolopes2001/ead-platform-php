@@ -2,27 +2,40 @@
 
 if (!isset($_SESSION)) session_start();
 
-if (isset($_POST)) {
-    $error = false;
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $birthday = $_POST['birthday'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
+function validate_post($value){
+    if(!isset($_POST[$value]) || empty($_POST[$value])){
+        return false;
+    }
 
-    if (empty($name)) {
+    return htmlspecialchars(trim($value));
+}
+
+
+if (count($_POST)) {
+    include("utils.php");
+
+    $error = false;
+    // $name = $_POST['name'];
+    // $email = $_POST['email'];
+    // $birthday = $_POST['birthday'];
+    // $password = $_POST['password'];
+    // $confirm_password = $_POST['confirm_password'];
+
+    if (!validate_post('name')) {
         $error = "Nome inválido.";
     }
 
-    if (empty($email)) {
+    if (!validate_post('email') && validate_email($email) ) {
         $error = "E-mail inválido.";
     }
 
-    if (empty($birthday)) {
+    if (!validate_post('birthday')) {
         $error = "Data de nascimento inválida.";
     }
 
-    if (empty($password) || empty($confirm_password)) {
+    if (!validate($password)) {
+        $error = "Senha inválida.";
+    } else if(strlen($password) < 6 || strlen($password) > 255 ){
         $error = "Senha inválida.";
     } else if ($password !== $confirm_password) {
         $error = "Senhas não conferem.";
@@ -71,7 +84,7 @@ if (isset($_POST)) {
 
     <main>
         <div class="container">
-            <h1>Login</h1>
+            <h1>Registro</h1>
 
             <form method="post" action="">
                 <div>
