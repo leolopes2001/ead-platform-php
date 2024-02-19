@@ -1,3 +1,9 @@
+<?php
+
+if(!isset($_SESSION)) session_start();
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -18,7 +24,7 @@
             <form method="post" action="">
                 <div>
                     <label class="form-label" for="email">E-mail</label>
-                    <input type="text" name="email" id="email" class="form-control">
+                    <input type="text" name="email" id="email" class="form-control" <??>>
                 </div>
                 <div>
                     <label class="form-label" for="password">Senha</label>

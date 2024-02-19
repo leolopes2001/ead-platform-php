@@ -1,5 +1,6 @@
 <?php
 
+if (!isset($_SESSION)) session_start();
 
 if (isset($_POST)) {
     $error = false;
@@ -8,7 +9,6 @@ if (isset($_POST)) {
     $birthday = $_POST['birthday'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-
 
     if (empty($name)) {
         $error = "Nome inválido.";
@@ -24,15 +24,20 @@ if (isset($_POST)) {
 
     if (empty($password) || empty($confirm_password)) {
         $error = "Senha inválida.";
-    }else if($password !== $confirm_password){
+    } else if ($password !== $confirm_password) {
         $error = "Senhas não conferem.";
     }
 
-    if($error){
+    if ($error) {
         echo $error;
-        }eslse{
-            
-        }
+    } else {
+
+        $stmt = $mysqli->prepare("INSERT INTO users (name, email, password, birthday, admin, created_at) VALUES (?, ?, ?, ?, TRUE , NOW())");
+        $stmt->bind_param("sssi", $name, $email, $password, $birthday);
+        $stmt->execute();
+
+        header("Location: album.php");
+    }
 }
 
 ?>
@@ -71,23 +76,28 @@ if (isset($_POST)) {
             <form method="post" action="">
                 <div>
                     <label class="form-label" for="name">Registro</label>
-                    <input type="text" name="name" id="name" class="form-control">
+                    <input type="text" name="name" id="name" class="form-control" 
+                        value="<?php if (isset($_POST['name'])) echo $_POST['name'] ?>">
                 </div>
                 <div>
                     <label class="form-label" for="email">E-mail</label>
-                    <input type="text" name="email" id="email" class="form-control">
+                    <input type="text" name="email" id="email" class="form-control" 
+                        value="<?php if(isset($_POST['email'])) echo $_POST['email'] ?>">
                 </div>
                 <div>
                     <label class="form-label" for="birthday">Data de nascimento</label>
-                    <input type="text" name="birthday" id="birthday" class="form-control">
+                    <input type="text" name="birthday" id="birthday" class="form-control" 
+                        value="<?php if(isset($_POST['birthday'])) echo $_POST['birthday']?>">
                 </div>
                 <div>
                     <label class="form-label" for="password">Senha</label>
-                    <input type="password" name="password" id="password" class="form-control">
+                    <input type="password" name="password" id="password" class="form-control" 
+                        value="<?php if(isset($_POST['password'])) echo $_POST['password']?>">
                 </div>
                 <div>
                     <label class="form-label" for="confirm_password">Confirme sua senha</label>
-                    <input type="password" name="confirm_password" id="confirm_password" class="form-control">
+                    <input type="password" name="confirm_password" id="confirm_password" class="form-control" 
+                        value="<?php if(isset($_POST['confirm_password'])) echo $_POST['confirm_password']?>">
                 </div>
                 <button class="btn btn-primary mt-3" type="submit">Cadastrar</button>
             </form>
